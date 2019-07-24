@@ -11,6 +11,7 @@ args = parser.parse_args()
 
 df = pd.read_csv(os.path.join(args.path, 'features.csv'))
 df_feat = df[[col for col in df if col.startswith('images_feat')]]
+# Pre-sort by a norm so it's a little bit easier to find matches when using `--fast`
 df['D'] = np.linalg.norm(df_feat, axis=1)
 df = df.sort_values(by=['D']).reset_index(drop=True)
 
@@ -39,6 +40,7 @@ while Left:
 	for j in Left[1:end]:
 		dist = (df.iloc[i]['D'] - df.iloc[j]['D'])**2
 		if dist < limit:
+			#TODO: make a better similarity measure
 			sim = 1/(1 + euclidean(df_feat.iloc[i], df_feat.iloc[j]))
 			if sim < best_sim:
 				best_j = j

@@ -26,6 +26,7 @@ Run `python featurize.py --path /path/to/image/folder`
 ### Analyze
 Pick up `features.csv` and append a column called `R` for Rank which shows which images should be adjacent once sorted. 
 Run `python analyze.py --path /path/to/image/folder`
+This script runs inteference on all the images so it might be slow. Add a `--fast` constraint to do a less exaustive search.
 
 ### Refresh
 `--dry-run` goes through all the motions but doesn't modify files (use at your own risk).
@@ -33,14 +34,24 @@ Run `python analyze.py --path /path/to/image/folder`
 Run `python refresh.py --path /path/to/image/folder --dry-run`
 Run `python refresh.py --path /path/to/image/folder --sort-by-vec`
 
-or do it all as one command:
+or do it all as one command (remove `--dry-run`):
 
 ```
-export IN_PATH=/path/to/image/folder \&&
-export OUT_PATH=/path/to/image/folder2 \&&
-python resize.py --in-path /path/to/image/folder --out-path /path/to/image/folder2` \&&
-python refresh.py --path $OUT_PATH \&&
-python featurize.py --path $OUT_PATH \&& 
-python analyze.py --path $OUT_PATH \&& 
+export IN_PATH=/path/to/image/folder &&
+export OUT_PATH=/path/to/image/folder2 &&
+python resize.py --in-path $IN_PATH --out-path $OUT_PATH --resize-factor 0.05 &&
+python featurize.py --path $OUT_PATH --depth 1 && 
+python analyze.py --path $OUT_PATH --fast && 
+python refresh.py --path $OUT_PATH --sort-by-vec --dry-run
+```
+
+and a more thorough one command:
+
+```
+export IN_PATH=/path/to/image/folder &&
+export OUT_PATH=/path/to/image/folder2 &&
+python resize.py --in-path $IN_PATH --out-path $OUT_PATH --resize-factor 0.5 &&
+python featurize.py --path $OUT_PATH --depth 4 && 
+python analyze.py --path $OUT_PATH && 
 python refresh.py --path $OUT_PATH --sort-by-vec
 ```
