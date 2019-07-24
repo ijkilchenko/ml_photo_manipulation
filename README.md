@@ -39,6 +39,8 @@ Run `python refresh.py --path /path/to/image/folder --dry-run`
 
 Run `python refresh.py --path /path/to/image/folder --sort-by-vec`
 
+### Putting it all together
+
 or do it all as one command (remove `--dry-run`):
 
 ```
