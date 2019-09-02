@@ -39,7 +39,10 @@ def resize():
       f, e = os.path.splitext(os.path.join(args.in_path,item))
       height, width = im.size
       imResize = im.resize((int(height*float(args.resize_factor)), int(width*float(args.resize_factor))), Image.ANTIALIAS)
-      imResize.save(os.path.join(args.out_path, item), 'JPEG', quality=90)
-      print('%s resized' % item)
+      try:
+        imResize.save(os.path.join(args.out_path, item), 'JPEG', quality=90)
+        print('%s resized' % item)
+      except:
+        print('%s could not be resized' % item)
 
 resize()

@@ -77,7 +77,7 @@ def main(args):
       if args.rename:
         new_name = prefix + get_random_name() + ext
       else:
-        new_name = prefix + fname + ext
+        new_name = prefix + fname
       print('Renaming %s to %s' % (fname, new_name))
       old_names.append(fname)
       new_names.append(new_name)
